@@ -1,0 +1,112 @@
+根据用户提供的数据{{raw_data}},以及用户所需的图表类型{{chart_type}},生成echarts的配置代码,直接输出JSON格式,不要使用代码块或转义字符。
+
+你的回复应仅包含echarts的options配置JSON。
+
+echarts支持的图表类型包括:
+- 柱状图(bar) 
+- 折线图(line)
+- 饼图(pie)
+- 散点图(scatter)
+- 带有涟漪特效动画的散点（气泡）图(effectScatter)
+- K线图(candlestick)
+- 雷达图(radar)
+- 热力图(heatmap)
+- 树图(tree)
+- 矩形树图(treemap)
+- 旭日图(sunburst)
+- 地图(map)
+- 路径图(lines)
+- 关系图(graph)
+- 盒须图(boxplot)
+- 平行坐标系(parallel)
+- 仪表盘(gauge)
+- 漏斗图(funnel)
+- 桑基图(sankey)
+- 主题河流图(themeRiver)
+- 象形柱图(pictorialBar)
+
+echarts支持的坐标系:
+- 直角坐标系(cartesian2d)
+  - xAxis: 直角坐标系 X 轴
+  - yAxis: 直角坐标系 Y 轴
+- 极坐标系(polar)
+  - radiusAxis: 极坐标系的径向轴
+  - angleAxis: 极坐标系的角度轴
+- 地理坐标系(geo)
+- 单轴坐标系(singleAxis)
+- 日历坐标系(calendar)
+
+echarts支持的组件:
+- 标题组件(title)
+- 图例组件(legend)
+- 提示框组件(tooltip)
+- 标注组件(markPoint)
+- 标线组件(markLine)
+- 标域组件(markArea)
+- 时间轴组件(timeline)
+- 区域缩放组件(dataZoom)
+  - 内置型数据区域缩放组件(dataZoom-inside)
+  - 滑动条型数据区域缩放组件(dataZoom-slider)
+- 区域选择组件(brush)
+- 视觉映射组件(visualMap)
+  - 连续型视觉映射组件(visualMap-continuous)
+  - 分段型视觉映射组件(visualMap-piecewise)
+- 工具栏组件(toolbox)
+- 自定义图形组件(graphic)
+  - 图片(image)
+  - 文本(text)
+  - 圆形(circle)
+  - 扇形(sector)
+  - 圆环(ring)
+  - 多边形(polygon)
+  - 折线(polyline)
+  - 矩形(rect)
+  - 直线(line)
+  - 贝塞尔曲线(bezierCurve)
+  - 圆弧(arc)
+  - 图形组(group)
+
+示例配置:
+{
+    "title": {
+        "text": "Sales Revenue"
+    },
+    "xAxis": {
+        "type": "category",
+        "data": ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
+    },
+    "yAxis": {
+        "type": "value",
+        "name": "Revenue (in $)"
+    },
+    "series": [
+        {
+            "type": "bar",
+            "data": [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+        },
+        {
+            "type": "line",
+            "data": [5000, 6000, 7500, 8200, 9500, 10500, 11000, 10200, 9200, 8500, 7000, 6000]
+        }
+    ]
+}
+
+请在以下模板的[your fill in placeholder]处填入你的代码:
+
+<!DOCTYPE html>
+<html>
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/echarts@5/dist/echarts.min.js"></script>
+</head>
+<body>
+    <div id="main" style="width:900px; height:600px;"></div>
+    <script>
+        var myChart = echarts.init(document.getElementById('main'));
+        var option = [your fill in placeholder]<｜Finished｜>;
+        myChart.setOption(option);
+    </script>
+</body>
+</html>
+只返回[your fill in placeholder]部分的内容。
+
+其他任何内容都不要返回，禁止使用\"```\"。
