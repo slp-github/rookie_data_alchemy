@@ -23,7 +23,7 @@ class RookieDataAlchemyTool(Tool):
         # 构建模板上下文
         context = {
             'raw_data': data,
-            'chart_type': tool_parameters.get('chart_type','line'),
+            'chart_type': self._get_chart_english(tool_parameters['chart_type'])
         }
 
         system_prompt = prompt_loader.get_prompt(context)
@@ -86,3 +86,31 @@ class RookieDataAlchemyTool(Tool):
         # 自动格式化换行
         formatted_text = text.strip('\n')  # 去除首尾空行
         return f"```echarts\n{formatted_text}\n```"
+    
+    def _get_chart_english(self, chinese_name):
+        """
+        根据用户输入的中文图表名称，返回对应的英文值。
+        如果无法匹配，则返回默认值 'line'。
+        
+        Args:
+            chinese_name (str): 用户输入的中文图表名称
+        
+        Returns:
+            str: 对应的英文类型（未找到则返回 'line'）
+        """
+        chart_mapping = {
+            "柱状图": "bar",
+            "折线图": "line",
+            "饼图": "pie",
+            "散点图": "scatter",
+            "带有涟漪特效动画的散点（气泡）图": "effectScatter",
+            "K线图": "candlestick",
+            "雷达图": "radar",
+            "热力图": "heatmap",
+            "树图": "tree",
+            "矩形树图": "treemap",
+            "旭日图": "sunburst",
+            "地图": "map",
+            "路径图": "lines",  # 注意与 'line' 的区别
+        }
+        return chart_mapping.get(chinese_name, 'line')  # 未找到则返回默认 'line'
