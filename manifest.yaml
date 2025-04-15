@@ -1,6 +1,6 @@
-version: 0.0.3
+version: 0.0.4
 type: plugin
-author: jaguarliuu
+author: shuluping
 name: rookie_data_alchemy
 label:
   en_US: rookie_data_alchemy
