@@ -40,7 +40,73 @@ parameters:
     llm_description: wait for data
     form: llm
   - name: chart_type
-    type: string
+    type: select
+    options:
+      - value: 柱状图
+        label:
+          en_US: bar
+          zh_Hans: 柱状图
+          pt_BR: bar
+      - value: 折线图
+        label:
+          en_US: line
+          zh_Hans: 折线图
+          pt_BR: line
+      - value: 饼图
+        label:
+          en_US: pie
+          zh_Hans: 饼图
+          pt_BR: pie
+      - value: 散点图
+        label:
+          en_US: scatter
+          zh_Hans: 散点图
+          pt_BR: scatter
+      - value: 带有涟漪特效动画的散点（气泡）图
+        label:
+          en_US: bubble
+          zh_Hans: 带有涟漪特效动画的散点（气泡）图
+          pt_BR: bubble
+      - value: K线图
+        label:
+          en_US: candlestick
+          zh_Hans: K线图
+          pt_BR: candlestick
+      - value: 雷达图
+        label:
+          en_US: radar
+          zh_Hans: 雷达图
+          pt_BR: radar
+      - value: 热力图
+        label:
+          en_US: heatmap
+          zh_Hans: 热力图
+          pt_BR: heatmap
+      - value: 树图
+        label:
+          en_US: tree
+          zh_Hans: 树图
+          pt_BR: tree
+      - value: 矩形树图
+        label:
+          en_US: treemap
+          zh_Hans: 矩形树图
+          pt_BR: treemap
+      - value: 旭日图
+        label:
+          en_US: sunburst
+          zh_Hans: 旭日图
+          pt_BR: sunburst
+      - value: 地图
+        label:
+          en_US: map
+          zh_Hans: 地图
+          pt_BR: map
+      - value: 路径图
+        label:
+          en_US: lines
+          zh_Hans: 路径图
+          pt_BR: lines
     required: true
     form: llm
     label:
