@@ -28,16 +28,29 @@ parameters:
     llm_description: LLM model for text2data.
   - name: data
     type: string
-    required: true
+    required: false
     label:
       en_US: data
-      zh_Hans: 待处理的数据
+      zh_Hans: 待处理的数据，需要标准json格式
       pt_BR: data
     human_description:
       en_US: wait for data
-      zh_Hans: 待处理的数据
+      zh_Hans: 待处理的数据，需要标准json格式
       pt_BR: wait for data
     llm_description: wait for data
+    form: llm
+  - name: csv_data
+    type: file
+    required: false
+    label:
+      en_US: csv data
+      zh_Hans: csv数据
+      pt_BR: csv data
+    human_description:
+      en_US: csv data
+      zh_Hans: csv数据
+      pt_BR: csv data
+    llm_description: csv data
     form: llm
   - name: chart_type
     type: string

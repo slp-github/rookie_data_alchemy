@@ -1,25 +1,88 @@
 from collections.abc import Generator
+import io
 import json
 from typing import Any
 import re
+import pandas as pd
 from dify_plugin.entities.tool import ToolInvokeMessage
-from dify_plugin import Tool
+from dify_plugin import File, Tool
 from dify_plugin.entities.model.llm import LLMModelConfig
 from dify_plugin.entities.model.message import SystemPromptMessage
 from dify_plugin.interfaces import tool
+from pydantic import InstanceOf
 from utils.prompt_loader import PromptLoader
 
 
 class RookieDataAlchemyTool(Tool):
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
-        # 格式化用户输入
-        data = self._safe_json_parse(tool_parameters["data"])
+
+        # 互斥校验
+        has_data = tool_parameters['data'] != ""
+        has_csv = tool_parameters['csv_data'] != ""
+        
+        if has_data and has_csv:
+            raise ValueError("参数冲突：不能同时提供 data 和 csv_data")
+
+        parsed_data = None
+        try:
+            if has_data:
+                # 处理JSON数据（保持原有逻辑）
+                data_input = tool_parameters["data"]
+                parsed_data = self._safe_json_parse(data_input)
+            elif has_csv:
+                # 处理CSV文件对象
+                csv_input = tool_parameters['csv_data']
+                
+                # 获取二进制内容并解码
+                csv_bytes = io.BytesIO(csv_input.blob)
+                print(csv_bytes)
+                try:
+                    csv_content = csv_bytes.decode('utf-8')
+                except UnicodeDecodeError:
+                    # 尝试常见编码格式
+                    for encoding in ['gbk', 'latin-1', 'utf-16']:
+                        try:
+                            csv_content = csv_bytes.decode(encoding)
+                            break
+                        except UnicodeDecodeError:
+                            continue
+                    else:
+                        raise ValueError("无法解码CSV文件，请确认文件编码")
+
+                # 解析CSV内容
+                
+                from io import StringIO
+                
+                # 添加CSV格式校验
+                if not csv_content.strip():
+                    raise ValueError("CSV文件内容为空")
+                if len(csv_content.splitlines()) < 2:
+                    raise ValueError("CSV至少需要包含表头和数据行")
+
+                df = pd.read_csv(
+                    StringIO(csv_content),
+                    skipinitialspace=True,
+                    on_bad_lines='error'
+                )
+                parsed_data = df.to_json(orient='records', force_ascii=False)
+
+            else:
+                raise ValueError("必须提供 data 或 csv_data 参数")
+
+        except pd.errors.ParserError as e:
+            line_no = e.args[0].lineno if e.args else 'unknown'
+            raise ValueError(f"CSV格式错误，第{line_no}行解析失败")
+        except ValueError as ve:
+            raise ve  # 重新抛出已处理的错误
+        except Exception as e:
+            raise ValueError(f"数据处理异常: {str(e)}")
+        
         model_info= tool_parameters.get('model')
         # 初始化模板加载器
         prompt_loader = PromptLoader()
         # 构建模板上下文
         context = {
-            'raw_data': data,
+            'raw_data': parsed_data,
             'chart_type': self._get_chart_english(tool_parameters['chart_type']),
             'custom_requirements': tool_parameters.get('custom_requirements', '')
         }
