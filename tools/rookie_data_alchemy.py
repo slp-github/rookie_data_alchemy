@@ -12,14 +12,14 @@ from utils.prompt_loader import PromptLoader
 
 class RookieDataAlchemyTool(Tool):
     def _invoke(self, tool_parameters: dict[str, Any]) -> Generator[ToolInvokeMessage]:
-        # 格式化用户输入
-        data = self._safe_json_parse(tool_parameters["data"])
+
         model_info= tool_parameters.get('model')
         # 初始化模板加载器
         prompt_loader = PromptLoader()
         # 构建模板上下文
         context = {
-            'raw_data': data,
+            'raw_data': tool_parameters['data'],
+            'title': tool_parameters['title'],
             'chart_type': self._get_chart_english(tool_parameters['chart_type']),
             'custom_requirements': tool_parameters.get('custom_requirements', '')
         }
