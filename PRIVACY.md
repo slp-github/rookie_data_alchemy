@@ -3,7 +3,7 @@
 ## 1. Information Collection Statement  
 ​**​This plugin does NOT collect or require:​**​  
 - Personal user information (name, email, device identifiers, etc.)  
-- User behavior data (usage patterns, session durations, etc.)  
+- User behavior data (usage patterns,  durations, etc.)  
 - Device information (IP addresses, OS versions, etc.)  
 
 ​**​Data Processing Disclosure:​**​  

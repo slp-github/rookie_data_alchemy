@@ -133,8 +133,13 @@ class RookieDataAlchemyTool(Tool):
         异常：
         当JSON格式错误时抛出json.JSONDecodeError
         """
+        
+        think_pos = raw_str.find('</think>')
+        if think_pos != -1:
+            raw_str = raw_str[think_pos + len('</think>'):]
+        print(raw_str)
         # 正则表达式匹配最外层代码块标记（兼容大小写和空白符）
-        code_block_pattern = r"^\s*`{3,}json\s*?(.*?)`{3,}\s*$"
+        code_block_pattern = r"^\s*`{3,}json\s*?(.*?)`{3,}.*$"
         
         # 尝试移除代码块标记
         cleaned_str = re.sub(
